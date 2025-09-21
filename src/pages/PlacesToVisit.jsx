@@ -1,31 +1,44 @@
-import React from 'react'
-import PlaceCardItem from './PlaceCardItem'
+import React from "react";
+import PlaceCardItem from "./PlaceCardItem";
+import "./PlacesToVisit.css";
 
-function PlacesToVisit({trip}) {
+function PlacesToVisit({ trip }) {
+  // Convert itinerary to array if it's an object
+  const itinerary = trip?.tripData?.itinerary
+    ? Array.isArray(trip.tripData.itinerary)
+      ? trip.tripData.itinerary
+      : Object.values(trip.tripData.itinerary)
+    : [];
+
   return (
-    <div>
-        <h2 className='font-bold text-xl'>Places to Visit</h2>
-        <div>
-            {trip.tripData?.itinerary?.map((item,index)=>(
-                <>
-                <div className='mt-5'>
-                    <h2 className='font-bold text-lg'>{item.day}</h2>
-                    <div className='grid md:grid-cols-2 gap-5'>
-                    {item.plan.map((place, index)=> (
-                        <>
-                        <div className='my-2'>
-                            <h2 className='font-medium text-sm text-orange-600'>{place.time}</h2>
-                            <PlaceCardItem place={place}/>
-                        </div>
-                        </>
-                    ))}
-                    </div>
-                    </div>
-                </>
-            ))}
-        </div>
+    <div className="places-wrapper">
+      <div className="places-card">
+        <p className="places-title">Places to Visit</p>
+
+        {itinerary.length === 0 ? (
+          <p className="no-itinerary">No places to display</p>
+        ) : (
+          itinerary.map((item, index) => {
+            const plan = item.plan
+              ? Array.isArray(item.plan)
+                ? item.plan
+                : Object.values(item.plan)
+              : [];
+            return (
+              <div key={index} className="day-section">
+                <p className="day-title">{item.day}</p>
+                <div className="places-grid">
+                  {plan.map((place, idx) => (
+                    <PlaceCardItem key={idx} place={place} />
+                  ))}
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
     </div>
-  )
+  );
 }
 
-export default PlacesToVisit
+export default PlacesToVisit;

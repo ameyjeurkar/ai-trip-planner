@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import "./Footer.css";
 
 function Footer() {
   return (
-    <div className='my-7'>
-        <h2 className='text-center text-gray-500'><b>AI Travel Planner</b> created by <b>VIJAYA & AMEY</b></h2>
-    </div>
-  )
+    <footer className="footer">
+      <p className="footer-text">
+        <b>AI Travel Planner</b> created by{" "}
+        <span className="footer-names">VIJAYA & AMEY</span>
+      </p>
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;

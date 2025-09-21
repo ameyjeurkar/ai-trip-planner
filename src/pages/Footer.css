@@ -1,0 +1,29 @@
+.footer {
+  background: linear-gradient(
+    90deg,
+    #4f46e5,
+    #6366f1
+  ); /* gradient background */
+  padding: 1.5rem 0;
+  text-align: center;
+  color: #f1f5f9;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.footer-text {
+  font-size: 1rem;
+}
+
+.footer-names {
+  color: #facc15; /* yellow for names */
+  font-weight: 700;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.footer-names:hover {
+  transform: scale(1.1);
+  color: #fbbf24; /* brighter yellow on hover */
+}
