@@ -214,17 +214,6 @@ function CreateTrip() {
           </button>
         </div>
       </div>
-
-      {/* Generate Trip Button */}
-      <div className="btn-wrapper">
-        <button
-          disabled={loading}
-          onClick={onGenerateTrip}
-          className={`btn ${loading ? "disabled" : ""}`}
-        >
-          {loading && <LoadingScreen /> ? "Please Wait..." : "Generate Trip"}
-        </button>
-      </div>
     </div>
   );
 }
