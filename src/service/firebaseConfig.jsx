@@ -2,16 +2,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAxhaUyrfOIfB1R6DXpiZnaSWVHLOGareo",
-//   authDomain: "ai-trip-planner-a5746.firebaseapp.com",
-//   projectId: "ai-trip-planner-a5746",
-//   storageBucket: "ai-trip-planner-a5746.firebasestorage.app",
-//   messagingSenderId: "733659305822",
-//   appId: "1:733659305822:web:dcb4a2f8f939237f39a1cf",
-//   measurementId: "G-W0LL96L4T8"
-// };
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,

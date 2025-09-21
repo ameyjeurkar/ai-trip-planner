@@ -60,21 +60,20 @@ function CreateTrip() {
 
     setLoading(true);
 
-    const FINAL_PROMPT = AI_PROMPT.replace(
-      "{location}",
-      formData.location.label
-    )
-      .replace("{totalDays}", formData.noOfDays)
-      .replace("{traveler}", formData.traveler)
-      .replace("{budget}", formData.budget);
+    const FINAL_PROMPT = AI_PROMPT
+      .replace('{location}', formData?.location?.label)
+      .replace('{totalDays}', formData?.noOfDays)
+      .replace('{traveler}', formData?.traveler)
+      .replace('{budget}', formData?.budget)
+      .replace('{budget}', formData?.budget)
+      .replace('{totalDays}', formData?.noOfDays)
+      .replace('{typeOfExperience}', formData?.typeOfExperience)
+      .replace('{location}', formData?.location?.label)
 
-    try {
-      const result = await chatSession.sendMessage(FINAL_PROMPT);
-      SaveAiTrip(result?.response?.text());
-    } catch (error) {
-      console.error("Error generating trip:", error);
-      setLoading(false);
-    }
+    const result = await chatSession.sendMessage(FINAL_PROMPT);
+    console.log(result?.response?.text());
+    setLoading(false);
+    SaveAiTrip(result?.response?.text());
   };
 
   // -----------------------------
@@ -122,17 +121,7 @@ function CreateTrip() {
       .catch((error) => console.error("Error fetching user profile: ", error));
   };
 
-  // -----------------------------
-  // Google login
-  // -----------------------------
-  const login = useGoogleLogin({
-    onSuccess: GetUserProfile,
-    onError: (error) => console.error("Google login error:", error),
-  });
 
-  // -----------------------------
-  // JSX
-  // -----------------------------
   return (
     <div className="container">
       {/* Header */}
@@ -202,7 +191,7 @@ function CreateTrip() {
                 className={`card ${
                   formData.traveler === item.people ? "active" : ""
                 }`}
-              >
+                >
                 <h2 className="icon">{item.icon}</h2>
                 <h2 className="card-title">{item.title}</h2>
                 <p className="card-desc">{item.desc}</p>
@@ -210,7 +199,6 @@ function CreateTrip() {
             ))}
           </div>
         </div>
-      </div>
 
       {/* Generate Trip Button */}
       <div className="btn-wrapper">
@@ -222,24 +210,7 @@ function CreateTrip() {
           {loading ? "Please Wait..." : "Create My Dream Trip ✨"}
         </button>
       </div>
-
-      {/* Login Modal */}
-      {openDialog && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <img src="/logo.svg" alt="logo" width="80" className="modal-logo" />
-            <h2 className="modal-title">
-              Sign in to unlock your personalized itinerary!
-            </h2>
-            <p className="modal-subtitle">
-              Authenticate with Google to securely save and view your trip.
-            </p>
-            <button onClick={login} className="google-btn">
-              🌐 Sign in with Google
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
