@@ -1,29 +1,12 @@
-// import { Input } from '@/components/ui/input';
-import {
-  AI_PROMPT,
-  SelectBudgetOptions,
-  SelectTravelList,
-} from "./../../constants/options";
-import React, { useEffect, useState } from "react";
-import GooglePlacesAutocomplete from "react-google-places-autocomplete";
-// import { Button } from '@/components/ui/button'
-// import { toast } from 'sonner';
-import { chatSession } from "./../../service/AIModel";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-// } from "@/components/ui/dialog"
-// import { FcGoogle } from "react-icons/fc";
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-// import { doc, setDoc } from "firebase/firestore";
+import { AI_PROMPT, SelectBudgetOptions, SelectExperienceType, SelectTravelList } from './../../constants/options';
+import React, { useEffect, useState } from 'react'
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import { chatSession } from './../../service/AIModel';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import { doc, setDoc } from "firebase/firestore";
 import { app, db } from "./../../service/firebaseConfig";
-// import { app, db } from '@/';
-// import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import "./index.css";
 import LoadingScreen from "../LoadingScreen";
 
@@ -66,17 +49,15 @@ function CreateTrip() {
 
     setLoading(true);
 
-    const FINAL_PROMPT = AI_PROMPT.replace(
-      "{location}",
-      formData?.location?.label
-    )
-      .replace("{totalDays}", formData?.noOfDays)
-      .replace("{traveler}", formData?.traveler)
-      .replace("{budget}", formData?.budget)
-      .replace("{budget}", formData?.budget)
-      .replace("{totalDays}", formData?.noOfDays);
-
-    // console.log(FINAL_PROMPT)
+    const FINAL_PROMPT = AI_PROMPT
+      .replace('{location}', formData?.location?.label)
+      .replace('{totalDays}', formData?.noOfDays)
+      .replace('{traveler}', formData?.traveler)
+      .replace('{budget}', formData?.budget)
+      .replace('{budget}', formData?.budget)
+      .replace('{totalDays}', formData?.noOfDays)
+      .replace('{typeOfExperience}', formData?.typeOfExperience)
+      .replace('{location}', formData?.location?.label)
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
     console.log(result?.response?.text());
@@ -195,13 +176,42 @@ function CreateTrip() {
                 className={`card ${
                   formData?.traveler === item.people ? "active" : ""
                 }`}
-              >
+                >
                 <h2 className="icon">{item.icon}</h2>
                 <h2 className="card-title">{item.title}</h2>
                 <p className="card-desc">{item.desc}</p>
               </div>
             ))}
           </div>
+
+          {/* Experience Experience */}
+          <div>
+            <h2 className="label">Type of Trip</h2>
+            <div className="card-grid">
+              {SelectExperienceType.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleInputChange("typeOfExperience", item.title)}
+                  className={`card ${formData?.typeOfExperience === item.title ? "active" : ""}`}
+                >
+                  <h2 className="icon">{item.icon}</h2>
+                  <h2 className="card-title">{item.title}</h2>
+                  <p className="card-desc">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+    
+        {/* Generate Trip Button */}
+        <div className="btn-wrapper">
+          <button
+            disabled={loading}
+            onClick={onGenerateTrip}
+            className={`btn ${loading ? "disabled" : ""}`}
+          >
+            {loading ? "Please wait! Generating Trip..." : "Generate Trip"}
+          </button>
         </div>
       </div>
 
@@ -215,24 +225,6 @@ function CreateTrip() {
           {loading && <LoadingScreen /> ? "Please Wait..." : "Generate Trip"}
         </button>
       </div>
-
-      {/* Login Dialog */}
-      {openDialog && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <img src="/logo.svg" alt="logo" width="80" className="modal-logo" />
-            <h2 className="modal-title">
-              Sign In to check out your travel plan
-            </h2>
-            <p className="modal-subtitle">
-              Sign in to the app with Google authentication securely
-            </p>
-            <button onClick={login} className="google-btn">
-              🌐 Sign in with Google
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
