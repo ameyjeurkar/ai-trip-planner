@@ -104,22 +104,22 @@ export const SelectExperienceType = [
   export const numberOfActivitiesForDay = [
     {
       id: 1,
-      title: 1
+      title: "1 activity"
     },
     {
       id: 2,
-      title: 2
+      title: "2 activities"
     },
     {
       id: 3,
-      title: 3
+      title: "3 activities"
     },
     {
       id: 4,
-      title: 4
+      title: "4 activities"
     },
   ]
   
 
-// export const AI_PROMPT = 'Generate Travel Plan for Location : {location}, for {totalDays} Days for {traveler} with a {budget} budget ,Give me a Hotels options list with Hotel Name, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with place Name, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for {totalDays} days with each day plan with best time to visit in JSON format'
-export const AI_PROMPT = 'Generate Travel Itinerary Plan for Location : {location}, for {totalDays} Days for {traveler} with a {budget} budget per person which curates itinerary keeping in mind {typeOfExperience} wanted by the individual, Give me a Hotels options list with Hotel Name, Hotel Address, Price, hotel image url, geo coordinates, rating, descriptions, provided facilities and reviews. Also provide itinerary list with Place Name, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for {totalDays} days with each day plan with best time to visit the place and give what places should be visited in morning, afternoon and evening and late night based on {numberOfActivitiesForDay} per day. Give me the list of 5-10 must try local food options in {location} with Food name, Food Description, food ingredients if available or else empty, type of food(dessert, savoury, tangy etc), address where this must be tried, location details like in which city it should be tried in JSON format';
+export const AI_PROMPT = 'Generate Travel Plan for Location : {location}, for {totalDays} Days for {traveler} with a {budget} budget ,Give me a Hotels options list with Hotel Name, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with place Name, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for {totalDays} days with each day plan with best time to visit in JSON format'
+// export const AI_PROMPT = 'Generate Travel Itinerary Plan for Location : {location}, for {totalDays} Days for {traveler} with a {budget} budget per person which curates itinerary keeping in mind {typeOfExperience} wanted by the individual, Give me a Hotels options list with Hotel Name, Hotel Address, Price, hotel image url, geo coordinates, rating, descriptions, provided facilities and reviews. Also provide itinerary list with Place Name, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for {totalDays} days with each day plan with best time to visit the place and give what places should be visited in morning, afternoon and evening and late night based on {numberOfActivitiesForDay} per day. Give me the list of 5-10 must try local food options in {location} with Food name, Food Description, food ingredients if available or else empty, type of food(dessert, savoury, tangy etc), address where this must be tried, location details like in which city it should be tried in JSON format';
