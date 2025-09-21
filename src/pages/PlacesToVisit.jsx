@@ -24,6 +24,7 @@ function PlacesToVisit({ trip }) {
                 ? item.plan
                 : Object.values(item.plan)
               : [];
+
             return (
               <div key={index} className="day-section">
                 <p className="day-title">{item.day}</p>
