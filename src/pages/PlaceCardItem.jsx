@@ -50,7 +50,9 @@ function PlaceCardItem({ place }) {
           <p className="place-card-title">{place.place}</p>
           <p className="place-card-text">{place.details}</p>
           <p className="place-card-ticket">🏷️ Ticket: {place.ticket_pricing}</p>
+          <p className="place-card-day">{place.time}</p>
         </div>
+        <span className="rating-component">{place.rating.replace("stars", "").trim()}</span>
       </div>
     </Link>
   );

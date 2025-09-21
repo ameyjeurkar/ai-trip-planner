@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { doc, setDoc } from "firebase/firestore";
-import { app, db } from "./../../service/firebaseConfig";
+import { db } from "./../../service/firebaseConfig";
 import {
   AI_PROMPT,
   SelectBudgetOptions,
   SelectTravelList,
 } from "./../../constants/options";
 import { chatSession } from "./../../service/AIModel";
-import LoadingScreen from "../LoadingScreen";
 import "./index.css";
 
 function CreateTrip() {
@@ -69,6 +67,7 @@ function CreateTrip() {
       .replace('{totalDays}', formData?.noOfDays)
       .replace('{typeOfExperience}', formData?.typeOfExperience)
       .replace('{location}', formData?.location?.label)
+      .replace('{numberOfActivitiesForDay}', formData?.numberOfActivitiesForDay)
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
     console.log(result?.response?.text());

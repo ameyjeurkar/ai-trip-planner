@@ -11,6 +11,7 @@ import Footer from './../../pages/Footer';
 function Viewtrip() {
     const { tripId } = useParams();
     const [trip, setTrip] = useState([])
+    console.log("TRIP: ", trip);
 
     useEffect(() => {
         tripId && GetTripData()

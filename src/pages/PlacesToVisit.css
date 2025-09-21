@@ -98,6 +98,16 @@
   font-weight: 500;
 }
 
+.rating-component {
+  display: inline;
+  background-color: green;
+  color: #e2e8f0;
+  padding: 4px;
+  font-weight: bolder;
+  height: 1.25rem;
+  border-radius: 4px;
+}
+
 /* Fade-in animation */
 @keyframes fadeInUp {
   from {

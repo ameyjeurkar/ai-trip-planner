@@ -60,7 +60,7 @@ function HotelCardItem({ hotel }) {
       <div className="hotel-item">
         <img src={hotelImage} alt={hotel?.name} className="hotel-item-img" />
         <div className="hotel-item-details">
-          <p className="hotel-item-title">{hotel?.name}</p>
+          <p className="hotel-item-title">{hotel?.hotel_name}</p>
           <p className="hotel-item-address">📍 {hotel?.address}</p>
           <p className="hotel-item-price">💰 {hotel?.price}</p>
           <p className="hotel-item-rating">⭐ {hotel?.rating}</p>
