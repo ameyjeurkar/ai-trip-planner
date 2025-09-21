@@ -18,7 +18,7 @@ const Header = () => {
       <div className="logo">
         <Link to="/">
           <FaPlaneDeparture />
-          <span>TripPlanner</span>
+          <span>Your Travel Companion</span>
         </Link>
       </div>
       <nav className="navigation">

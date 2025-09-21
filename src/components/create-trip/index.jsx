@@ -1,36 +1,46 @@
-import { AI_PROMPT, SelectBudgetOptions, SelectExperienceType, SelectTravelList } from './../../constants/options';
-import React, { useEffect, useState } from 'react'
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
-import { chatSession } from './../../service/AIModel';
-import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 import { doc, setDoc } from "firebase/firestore";
 import { app, db } from "./../../service/firebaseConfig";
-import { useNavigate } from 'react-router-dom';
-import "./index.css";
+import {
+  AI_PROMPT,
+  SelectBudgetOptions,
+  SelectTravelList,
+} from "./../../constants/options";
+import { chatSession } from "./../../service/AIModel";
 import LoadingScreen from "../LoadingScreen";
+import "./index.css";
 
 function CreateTrip() {
-  const [place, setPlace] = useState();
-  const [formData, setFormData] = useState([]);
-
+  const [place, setPlace] = useState(null);
+  const [formData, setFormData] = useState({
+    location: null,
+    noOfDays: "",
+    budget: "",
+    traveler: "",
+  });
   const [openDialog, setOpenDialog] = useState(false);
-
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  // -----------------------------
+  // Handle input changes
+  // -----------------------------
   const handleInputChange = (name, value) => {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   useEffect(() => {
     console.log(formData);
   }, [formData]);
 
+  // -----------------------------
+  // Function to generate trip
+  // -----------------------------
   const onGenerateTrip = async () => {
     const user = localStorage.getItem("user");
     if (!user) {
@@ -39,11 +49,12 @@ function CreateTrip() {
     }
 
     if (
-      (formData?.noOfDAys > 5 && !formData?.location) ||
-      !formData?.budget ||
+      !formData.location ||
+      !formData.noOfDays ||
+      !formData.budget ||
       !formData.traveler
     ) {
-      // toast('Please fill all the details')
+      alert("Please fill in all the details!");
       return;
     }
 
@@ -65,26 +76,32 @@ function CreateTrip() {
     SaveAiTrip(result?.response?.text());
   };
 
-  const SaveAiTrip = async (TripData) => {
+  // -----------------------------
+  // Save trip data to Firebase
+  // -----------------------------
+  const SaveAiTrip = async (tripData) => {
     setLoading(true);
     const user = JSON.parse(localStorage.getItem("user"));
     const docId = Date.now().toString();
-    // Add a new document in collection "AITrips"
-    await setDoc(doc(db, "AITrips", docId), {
-      userSelection: formData,
-      tripData: JSON.parse(TripData),
-      userEmail: "dummy@gmail.com", // CHANGE CHANGE CHANGE
-      id: docId,
-    });
-    setLoading(false);
-    navigate("/view-trip/" + docId);
+
+    try {
+      await setDoc(doc(db, "AITrips", docId), {
+        userSelection: formData,
+        tripData: JSON.parse(tripData),
+        userEmail: user?.email || "dummy@gmail.com",
+        id: docId,
+      });
+      navigate("/view-trip/" + docId);
+    } catch (error) {
+      console.error("Error saving trip:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const login = useGoogleLogin({
-    onSuccess: (res) => GetUserProfile(res),
-    onError: (error) => console.log(error),
-  });
-
+  // -----------------------------
+  // Get Google profile function
+  // -----------------------------
   const GetUserProfile = (tokenInfo) => {
     axios
       .get(
@@ -97,30 +114,27 @@ function CreateTrip() {
         }
       )
       .then((resp) => {
-        console.log(resp);
         localStorage.setItem("user", JSON.stringify(resp.data));
         setOpenDialog(false);
         onGenerateTrip();
       })
-      .catch((error) => {
-        console.error("Error fetching user profile: ", error);
-      });
+      .catch((error) => console.error("Error fetching user profile: ", error));
   };
+
 
   return (
     <div className="container">
       {/* Header */}
-      <h2 className="page-title">Tell us your travel preferences 🏕️🌴</h2>
+      <h2 className="page-title">Let's Plan Your Dream Adventure! 🌎✨</h2>
       <p className="page-subtitle">
-        Just provide some basic information, and our trip planner will generate
-        a customized itinerary tailored to your preferences.
+        Share a few details, and we'll craft a personalized trip just for you.
       </p>
 
-      {/* Form */}
+      {/* Form Section */}
       <div className="form-section">
-        {/* Location */}
+        {/* Destination */}
         <div>
-          <h2 className="label">What is your destination of choice?</h2>
+          <h2 className="label">Where will your next adventure take you?</h2>
           <GooglePlacesAutocomplete
             apiKey={process.env.REACT_APP_GOOGLE_PLACE_API_KEY}
             selectProps={{
@@ -133,28 +147,29 @@ function CreateTrip() {
           />
         </div>
 
-        {/* Days */}
+        {/* Number of Days */}
         <div>
-          <h2 className="label">How many days are you planning your trip?</h2>
+          <h2 className="label">How long do you want your adventure to be?</h2>
           <input
-            placeholder="Enter number of days"
             type="number"
+            min={1}
+            placeholder="Enter number of days"
             className="input"
-            min={0}
+            value={formData.noOfDays}
             onChange={(e) => handleInputChange("noOfDays", e.target.value)}
           />
         </div>
 
         {/* Budget */}
         <div>
-          <h2 className="label">What is your budget?</h2>
+          <h2 className="label">What's your ideal travel budget?</h2>
           <div className="card-grid">
             {SelectBudgetOptions.map((item, index) => (
               <div
                 key={index}
                 onClick={() => handleInputChange("budget", item.title)}
                 className={`card ${
-                  formData?.budget === item.title ? "active" : ""
+                  formData.budget === item.title ? "active" : ""
                 }`}
               >
                 <h2 className="icon">{item.icon}</h2>
@@ -167,14 +182,14 @@ function CreateTrip() {
 
         {/* Travelers */}
         <div>
-          <h2 className="label">Who do you plan on traveling with?</h2>
+          <h2 className="label">Who will you be exploring with?</h2>
           <div className="card-grid">
             {SelectTravelList.map((item, index) => (
               <div
                 key={index}
                 onClick={() => handleInputChange("traveler", item.people)}
                 className={`card ${
-                  formData?.traveler === item.people ? "active" : ""
+                  formData.traveler === item.people ? "active" : ""
                 }`}
                 >
                 <h2 className="icon">{item.icon}</h2>
@@ -183,36 +198,18 @@ function CreateTrip() {
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Experience Experience */}
-          <div>
-            <h2 className="label">Type of Trip</h2>
-            <div className="card-grid">
-              {SelectExperienceType.map((item, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleInputChange("typeOfExperience", item.title)}
-                  className={`card ${formData?.typeOfExperience === item.title ? "active" : ""}`}
-                >
-                  <h2 className="icon">{item.icon}</h2>
-                  <h2 className="card-title">{item.title}</h2>
-                  <p className="card-desc">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-    
-        {/* Generate Trip Button */}
-        <div className="btn-wrapper">
-          <button
-            disabled={loading}
-            onClick={onGenerateTrip}
-            className={`btn ${loading ? "disabled" : ""}`}
-          >
-            {loading ? "Please wait! Generating Trip..." : "Generate Trip"}
-          </button>
-        </div>
+      {/* Generate Trip Button */}
+      <div className="btn-wrapper">
+        <button
+          disabled={loading}
+          onClick={onGenerateTrip}
+          className={`btn ${loading ? "disabled" : ""}`}
+        >
+          {loading ? "Please Wait..." : "Create My Dream Trip ✨"}
+        </button>
+      </div>
       </div>
     </div>
   );
