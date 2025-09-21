@@ -1,97 +1,79 @@
-/* Card container */
 .trip-card {
-    width: 100%;
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    animation: fadeInUp 0.8s ease both;
+  display: flex;
+  flex-direction: column; /* stack image + details vertically */
+  align-items: center;
+
+  width: 90%; /* take most of screen width */
+  max-width: 1103px; /* but not too stretched on desktop */
+  margin: 2rem auto; /* center horizontally with space above/below */
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+  overflow: hidden; /* keeps image edges neat */
+  text-align: center;
+
+  /* Entry animation */
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  animation: fadeInUp 0.7s ease forwards;
 }
 
-.trip-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* Image with hover zoom */
-.trip-img {
-    height: 340px;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 16px 16px 0 0;
-    transition: transform 0.4s ease;
-}
-
-.trip-card:hover .trip-img {
-    transform: scale(1.05);
-}
-
-/* Details */
-.trip-details {
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    animation: fadeIn 1s ease both;
-}
-
-.trip-location {
-    font-weight: 700;
-    font-size: 1.75rem;
-    color: #1f2937; /* dark gray */
-}
-
-/* Tags */
-.trip-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.trip-tag {
-    padding: 6px 14px;
-    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-    border-radius: 9999px;
-    font-size: 0.9rem;
-    color: #374151;
-    transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.trip-tag:hover {
-    background: linear-gradient(135deg, #d1d5db, #9ca3af);
-    transform: scale(1.05);
-}
-
-/* Animations */
 @keyframes fadeInUp {
-    from {
-    opacity: 0;
-    transform: translateY(20px);
-    }
-    to {
+  to {
     opacity: 1;
-    transform: translateY(0);
-    }
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Image stays on top, spans card width */
+.trip-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+
+  opacity: 0;
+  animation: fadeIn 1s ease forwards 0.3s;
 }
 
 @keyframes fadeIn {
-    from {
-    opacity: 0;
-    }
-    to {
+  to {
     opacity: 1;
-    }
+  }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .trip-location {
-    font-size: 1.4rem;
-    }
-    .trip-tag {
-    font-size: 0.8rem;
-    }
+/* Details below image */
+.trip-details {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
-  
+
+.trip-location {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.trip-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.trip-tag {
+  background: #f1f5f9;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #475569;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.trip-tag:hover {
+  transform: scale(1.05);
+  background: #e2e8f0;
+}

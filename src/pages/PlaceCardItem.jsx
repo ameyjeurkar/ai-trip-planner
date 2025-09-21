@@ -1,46 +1,59 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
-import { GetPlaceDetails, PHOTO_REF_URL } from '../service/GlobalApi';
-import { toast } from 'sonner';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { GetPlaceDetails, PHOTO_REF_URL } from "../service/GlobalApi";
+import { toast } from "sonner";
+import "./PlacesToVisit.css";
 
-function PlaceCardItem({place}) {
+// Fallback images in case API fails
+const fallbackImages = [
+  "https://images.unsplash.com/photo-1501117716987-c8e2a1c7d24c",
+  "https://images.unsplash.com/photo-1551776235-dde6d4829808",
+  "https://images.unsplash.com/photo-1566073771259-6a8506099945"
+];
+
+function PlaceCardItem({ place }) {
   const [photoUrl, setPhotoUrl] = useState();
 
   useEffect(() => {
-      place && GetPlacePhoto();
-  }, [place])
+    place && GetPlacePhoto();
+  }, [place]);
 
   const GetPlacePhoto = async () => {
     try {
-        const data = {
-            textQuery: place?.place
-        }
+      const data = { textQuery: place?.place };
+      await GetPlaceDetails(data).then((resp) => {
+        const name =
+          resp.data.places[0].photos?.[3]?.name ||
+          resp.data.places[0].photos?.[0]?.name;
+        const PhotoUrl = name
+          ? PHOTO_REF_URL.replace("{NAME}", name)
+          : fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+        setPhotoUrl(PhotoUrl);
+      });
+    } catch (error) {
+      setPhotoUrl(fallbackImages[Math.floor(Math.random() * fallbackImages.length)]);
+      toast("Unable to fetch place details, using default image");
+    }
+  };
 
-        await GetPlaceDetails(data).then(resp => {
-            console.log(resp.data.places[0].photos[3].name)
-            const PhotoUrl = PHOTO_REF_URL.replace('{NAME}', resp.data.places[0].photos[3].name)
-            setPhotoUrl(PhotoUrl)
-        })
-    }
-    catch(error) {
-        toast("Unable to fetch places details");
-    }
-  }
+  const placeImage = photoUrl || fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
 
   return (
-    <Link to={'https://www.google.com/maps/search/?api=1&query=' +place?.place} target='_blank'>
-    <div className='shadow-sm border rounded-xl p-3 mt-2 flex gap-5 hover:scale-105 hover:shadow-md cursor-pointer transition-all'>
-        <img src={photoUrl?photoUrl:'/placeholder.jpg'} alt="" className='w-[130px] h-[130px] rounded-xl object-cover' />
-        <div>
-            <h2 className='font-bold text-lg'>{place.place}</h2>
-            <p className='text-sm text-gray-500'>{place.details}</p>
-            {/* <h2>place.timetoTravel</h2> */}
-            <h2 className='text-xs font-medium mt-2 mb-2'>🏷️Ticket: {place.ticket_pricing}</h2>
-            {/* <Button size="sm"><FaMapLocationDot /></Button> */}
+    <Link
+      to={"https://www.google.com/maps/search/?api=1&query=" + place?.place}
+      target="_blank"
+      className="place-link"
+    >
+      <div className="place-card">
+        <img src={placeImage} alt={place?.place} className="place-card-img" />
+        <div className="place-card-details">
+          <p className="place-card-title">{place.place}</p>
+          <p className="place-card-text">{place.details}</p>
+          <p className="place-card-ticket">🏷️ Ticket: {place.ticket_pricing}</p>
         </div>
-    </div>
+      </div>
     </Link>
-  )
+  );
 }
 
-export default PlaceCardItem
+export default PlaceCardItem;
