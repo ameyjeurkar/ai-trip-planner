@@ -52,7 +52,17 @@ function PlaceCardItem({ place }) {
           <p className="place-card-ticket">🏷️ Ticket: {place.ticket_pricing}</p>
           <p className="place-card-day">{place.time}</p>
         </div>
-        <span className="rating-component">{place.rating.replace("stars", "").trim()}</span>
+        {
+          place.rating.replace("stars", "").trim() != "N/A" && (
+            <span
+              className="rating-component"
+              style={{
+                backgroundColor:
+                  place.rating.replace("stars", "").trim() >= 4 ? "green" : (place.rating.replace("stars", "").trim() >= 3 ? "orange" : "red")
+              }}
+            >{place.rating.replace("stars", "").trim()}</span>
+          )
+        }
       </div>
     </Link>
   );

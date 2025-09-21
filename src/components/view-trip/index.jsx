@@ -1,6 +1,6 @@
 import { db } from './../../service/firebaseConfig';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from 'sonner';
 import InfoSection from './../../pages/InfoSection';
@@ -43,6 +43,11 @@ function Viewtrip() {
 
             {/* Daily Plan */}
             <PlacesToVisit trip={trip} />
+
+            {/* Book Now Button */}
+            <Link to="/payment" className="book-now-button">
+                Book Now
+            </Link>
 
             {/* Footer */}
             <Footer trip={trip} />
