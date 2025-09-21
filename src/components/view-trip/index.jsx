@@ -45,9 +45,11 @@ function Viewtrip() {
             <PlacesToVisit trip={trip} />
 
             {/* Book Now Button */}
-            <Link to="/payment" className="book-now-button">
-                Book Now
-            </Link>
+            <div style={{ textAlign: 'center', display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+                <Link to="/payment" className="book-now-button">
+                    Book Now
+                </Link>
+            </div>
 
             {/* Footer */}
             <Footer trip={trip} />
