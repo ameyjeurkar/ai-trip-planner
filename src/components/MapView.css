@@ -1,0 +1,9 @@
+.map-view {
+  padding: 1rem;
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}

@@ -1,0 +1,38 @@
+.app-footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.75rem 0;
+  background-color: #fff;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.app-footer a {
+  color: #888;
+  text-decoration: none;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.app-footer a:hover {
+  color: #3f51b5;
+  transform: translateY(-3px);
+}
+
+.app-footer a.active {
+  color: #ff7043;
+  font-weight: bold;
+}
+
+.app-footer a svg {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}

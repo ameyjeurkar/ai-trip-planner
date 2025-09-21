@@ -1,0 +1,45 @@
+.emergency-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.popup-content h3 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.suggested-alternatives {
+  text-align: left;
+  margin: 1.5rem 0;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.update-button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff7043;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

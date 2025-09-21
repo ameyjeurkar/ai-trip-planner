@@ -1,0 +1,82 @@
+.itinerary {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.day-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  cursor: pointer;
+}
+
+.day-header h3 {
+  margin: 0;
+}
+
+.day-content {
+  padding: 0 1.5rem 1.5rem;
+}
+
+
+.time-slot {
+  margin-bottom: 1rem;
+}
+
+.time-slot h4 {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.activity-tile {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.activity-tile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.activity-details {
+  flex-grow: 1;
+}
+
+.activity-details h5 {
+  margin-bottom: 0.25rem;
+}
+
+.activity-details p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.activity-details span {
+  font-weight: bold;
+  color: #3f51b5;
+}
+
+.swap-button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+}

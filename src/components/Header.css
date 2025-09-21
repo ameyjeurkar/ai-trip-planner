@@ -1,0 +1,54 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #3f51b5, #ff7043);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logo a {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  gap: 0.5rem;
+}
+
+.navigation a {
+  margin-left: 1.5rem;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.navigation a:hover {
+  color: #f1f1f1;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-icon {
+  font-size: 1.5rem;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.logout-button:hover {
+  color: #f1f1f1;
+}
